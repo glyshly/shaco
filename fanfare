@@ -1,0 +1,34 @@
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.util.regex.Pattern; //要黎用replaceAll method
+import java.net.InetSocketAddress;
+import java.net.Proxy;
+import java.net.URL;
+
+class readURL  {
+    public static void main(String[] args) {
+        String generate_URL = "http://www.cathaypacific.com/cx/zh_HK/latest-offers/flights/fanfares/";
+        String inputLine;
+        try {
+            URL data = new URL(generate_URL);
+            
+            /* Open connection */
+            /* comment below line in case of Proxy */
+            HttpURLConnection con = (HttpURLConnection) data.openConnection();
+            /* Read webpage coontent */
+            BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
+            /* Read line by line */
+            while ((inputLine = in.readLine()) != null) {
+                inputLine = inputLine.replaceAll("\\t+","");
+                System.out.println(inputLine);
+            }
+            /* close BufferedReader */
+            in.close();
+            /* close HttpURLConnection */
+            con.disconnect();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}
